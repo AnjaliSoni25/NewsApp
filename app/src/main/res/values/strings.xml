@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">NewsApp</string>
+    <string name="publish_at">Publish At :</string>
+    <string name="author">Author :</string>
+    <string name="sort_old_to_new">Sort Old to New</string>
+    <string name="ok">ok</string>
+</resources>
