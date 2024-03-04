@@ -2,13 +2,11 @@ package com.example.newsapp
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.Handler
 import android.os.Looper
-import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.BufferedReader
@@ -27,10 +25,15 @@ class NewsViewModel : ViewModel() {
 
     fun getNewsList(): MutableLiveData<List<Article>> {
         if (newsList.value == null) {
+            _isLoading.value = true
             fetchNews()
         }
         return newsList
     }
+
+    // LiveData to represent loading state
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> get() = _isLoading
 
     // Fetch News Data from API using executor service
     private fun fetchNews() {
@@ -73,13 +76,20 @@ class NewsViewModel : ViewModel() {
                     // Update UI on the main thread
                     Handler(Looper.getMainLooper()).post {
                         newsList.value = articles
+
+                        // Hide loading state
+                        _isLoading.value = false
                     }
                 }
 
             } catch (e: IOException) {
                 e.printStackTrace()
+                // Hide loading state in case of an error
+                _isLoading.value = false
             } catch (e: JSONException) {
                 e.printStackTrace()
+                // Hide loading state in case of an error
+                _isLoading.value = false
             } finally {
                 executorService.shutdown()
             }

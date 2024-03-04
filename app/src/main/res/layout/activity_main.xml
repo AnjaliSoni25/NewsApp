@@ -9,24 +9,32 @@
             type="com.example.newsapp.NewsViewModel" />
     </data>
 
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bg"
+        android:background="@drawable/gradient_background"
         android:orientation="vertical"
         android:padding="10dp"
         tools:context=".MainActivity">
+
 
         <Switch
             android:id="@+id/sortSwitch"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="8dp"
+            android:onCheckedChanged="@{(buttonView, isChecked) -> viewModel.sortArticlesByDate(isChecked)}"
+            android:switchPadding="10dp"
             android:text="@string/sort_old_to_new"
             android:textColor="@color/purple_700"
-           android:switchPadding="10dp"
-            android:onCheckedChanged="@{(buttonView, isChecked) -> viewModel.sortArticlesByDate(isChecked)}"
-            />
+            android:textStyle="bold"
+            android:thumbTint="@color/white" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -34,4 +42,14 @@
             android:layout_height="match_parent" />
 
     </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/loader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            style="?android:attr/progressBarStyleLarge"
+            />
+
+    </RelativeLayout>
 </layout>
